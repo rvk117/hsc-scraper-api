@@ -1,8 +1,7 @@
 import time, json, os, re
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.edge.service import Service as EdgeService
-from webdriver_manager.microsoft import EdgeChromiumDriverManager
+
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 import requests
@@ -71,13 +70,19 @@ def main():
     links = get_display_text_links()
     print(f"Found {len(links)} displayText pages")
 
-    options = webdriver.EdgeOptions()
-    # Comment this if you want to watch it
+    from selenium.webdriver.chrome.service import Service as ChromeService
+    from webdriver_manager.chrome import ChromeDriverManager
+
+    options = webdriver.ChromeOptions()
     options.add_argument("--headless")
-    driver = webdriver.Edge(
-        service=EdgeService(EdgeChromiumDriverManager().install()),
-        options=options
+    options.add_argument("--disable-gpu")
+    options.add_argument("--no-sandbox")
+
+    driver = webdriver.Chrome(
+    service=ChromeService(ChromeDriverManager().install()),
+    options=options
     )
+
 
     with open(OUTFILE, "a", encoding="utf-8") as f:
         for url in links:
