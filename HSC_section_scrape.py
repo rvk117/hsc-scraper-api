@@ -70,18 +70,15 @@ def main():
     links = get_display_text_links()
     print(f"Found {len(links)} displayText pages")
 
-    from selenium.webdriver.chrome.service import Service as ChromeService
-    from webdriver_manager.chrome import ChromeDriverManager
+    import undetected_chromedriver as uc
 
-    options = webdriver.ChromeOptions()
+    options = uc.ChromeOptions()
     options.add_argument("--headless")
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
 
-    driver = webdriver.Chrome(
-    service=ChromeService(ChromeDriverManager().install()),
-    options=options
-    )
+    driver = uc.Chrome(options=options)
+
 
 
     with open(OUTFILE, "a", encoding="utf-8") as f:
